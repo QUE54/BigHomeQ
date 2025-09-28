@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BIGHOMEQ</title>
+<style>
+:root{
+  --main-purple:#a27bfe;
+  --light-purple:#f2e6ff;
+  --hover-purple:#9f7bff;
+  --glow:rgba(162,123,254,0.4);
+  --shadow:rgba(0,0,0,0.2);
+  --white:#fff;
+  --text-dark:#2a2a2a;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins','Segoe UI',sans-serif;}
+body{
+  background: linear-gradient(135deg,#f9f5ff,#f2e6ff);
+  color:var(--text-dark);
+  display:flex; flex-direction:column; min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* HEADER */
+header{
+  position:fixed; top:0; left:0; width:100%;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:15px 30px;
+  background: linear-gradient(90deg,#b491ff,#8c63ff);
+  box-shadow:0 8px 20px var(--shadow);
+  border-bottom-left-radius:15px;
+  border-bottom-right-radius:15px;
+  z-index:1000;
+  color:#fff;
+}
+header .logo{
+  display:flex; align-items:center; gap:12px;
+}
+header .logo img{
+  width:45px; height:45px; border-radius:50%; border:2px solid #fff;
+  box-shadow:0 0 12px rgba(196,155,255,0.5);
+  object-fit:cover;
+}
+header .logo span{
+  font-weight:bold; font-size:1.2rem;
+  text-shadow:0 0 5px rgba(196,155,255,0.5);
+}
+
+/* HAMBURGER */
+.menu-toggle{
+  display:none; flex-direction:column; gap:6px; cursor:pointer;
+}
+.menu-toggle span{
+  width:28px; height:3px; background:#fff; border-radius:3px; transition:.3s;
+}
+
+/* NAVIGATION (SIDE MENU) */
+.nav{
+  position:fixed; top:0; right:-260px; width:260px; height:100%;
+  background: linear-gradient(135deg,#f2e6ff,#ffffff);
+  display:flex; flex-direction:column; padding:100px 20px; gap:20px;
+  transition:.3s; box-shadow:-5px 0 15px var(--shadow); z-index:999;
+  font-weight:600;
+}
+.nav.active{right:0;}
+.nav a{
+  color:var(--main-purple); text-decoration:none; font-size:1.15rem;
+  padding:12px 10px; border-radius:10px; transition:.3s;
+}
+.nav a:hover{
+  background: linear-gradient(135deg,#b491ff,#8c63ff);
+  color:#fff; box-shadow:0 0 15px var(--glow);
+  transform:translateX(5px);
+}
+
+/* MAIN */
+main{
+  flex:1; padding:120px 20px 60px; max-width:1000px; margin:auto;
+  display:flex; flex-direction:column; gap:50px;
+}
+
+/* HERO / INTRO */
+.hero{
+  display:flex; flex-direction:column; align-items:center; text-align:center; gap:20px;
+}
+.hero h1{
+  font-size:2.5rem; background: linear-gradient(135deg,#b491ff,#8c63ff);
+  -webkit-background-clip:text; color:transparent; text-shadow:0 0 10px var(--glow);
+}
+.hero p{
+  font-size:1.2rem; color:#4b2ca1; line-height:1.6;
+  word-wrap:break-word;
+}
+
+/* ID CARD FLIP */
+.card-container{
+  perspective:1000px;
+  width:350px;
+  height:200px;
+  margin:auto;
+}
+.card{
+  width:100%;
+  height:100%;
+  transform-style:preserve-3d;
+  transition:transform 0.8s;
+  cursor:pointer;
+  border-radius:15px;
+}
+.card.flipped{
+  transform:rotateY(180deg);
+}
+.card-front, .card-back{
+  position:absolute;
+  width:100%;
+  height:100%;
+  backface-visibility:hidden;
+  border-radius:15px;
+  overflow:hidden;
+}
+.card-front{
+  background: linear-gradient(135deg,#e9d6ff,#b491ff);
+  border-radius:15px;
+  overflow:hidden;
+
+  /* ลาย Hologram สีม่วงเข้ม */
+  background-image:
+    linear-gradient(-45deg, rgba(162,123,254,0.15), rgba(162,123,254,0.15) 25%, rgba(128,0,255,0.25) 50%, rgba(162,123,254,0.15) 75%, rgba(128,0,255,0.25) 100%);
+  background-blend-mode: overlay;
+  background-size: 200% 200%;
+  animation: holoAnim 7s linear infinite;
+
+  display:flex; 
+  flex-direction:column; 
+  align-items:center; 
+  justify-content:center; 
+  gap:8px;
+  padding:10px;
+}
+.card-front img{
+  width:90px; height:90px; border-radius:6px; object-fit:cover;
+  border:2px solid #fff; box-shadow:0 0 10px rgba(255,255,255,0.6);
+}
+.card-front h2{
+  font-size:1rem; color:#fff; text-shadow:0 0 5px rgba(0,0,0,0.2);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.card-front p{
+  font-size:0.8rem; color:#fff; text-shadow:0 0 3px rgba(0,0,0,0.2);
+  text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+
+.card-back{
+  transform:rotateY(180deg);
+  background: linear-gradient(135deg,#e9d6ff,#b491ff);
+  border-radius:15px;
+  overflow:hidden;
+
+  /* ลาย Hologram สีม่วงเข้ม */
+  background-image:
+    linear-gradient(45deg, rgba(162,123,254,0.15), rgba(162,123,254,0.15) 25%, rgba(128,0,255,0.25) 50%, rgba(162,123,254,0.15) 75%, rgba(128,0,255,0.25) 100%);
+  background-blend-mode: overlay;
+  background-size: 200% 200%;
+  animation: holoAnim 3s linear infinite;
+
+  display:flex;
+  flex-direction:row;
+  gap:10px;
+  padding:10px 12px;
+  align-items:flex-start;
+}
+
+/* Hologram animation */
+@keyframes holoAnim {
+  0% {background-position:0% 0%;}
+  50% {background-position:100% 100%;}
+  100% {background-position:0% 0%;}
+}
+
+.card-back img{
+  width:90px;
+  height:90px;
+  border-radius:10px;
+  border:2px solid #a27bfe;
+  box-shadow:0 0 8px rgba(162,123,254,0.5);
+  flex-shrink:0;
+}
+
+.card-back .info{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  color:#4b2ca1;
+  font-size:0.8rem;
+  overflow:hidden;
+}
+
+.card-back .info h2{
+  font-size:1rem;
+  font-weight:700;
+  margin:0;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.card-back .info p{
+  margin:0;
+  line-height:1.2;
+  word-wrap:break-word;
+  white-space:normal;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* LINKS CENTERED */
+.card-back .links{
+  display:flex;
+  flex-direction:column; /* เรียงแถว */
+  justify-content:flex-start; /* เริ่มจากด้านบน */
+  align-items:flex-start;     /* ชิดซ้าย */
+  gap:3px;
+  margin-top:10px;
+  width:100%;
+  text-align:left;
+}
+
+.card-back .links .row{
+  display:flex;
+  flex-direction:row;
+  gap:20px; /* ระยะระหว่าง FB กับ IG */
+  justify-content:flex-start; /* ชิดซ้าย */
+  width:100%;
+}
+
+.card-back .links a{
+  text-decoration:none;
+  background: linear-gradient(135deg,#8c63ff,#b491ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  transition:all 0.3s;
+  white-space:nowrap;
+}
+
+.card-back .links a:hover{
+  transform:scale(1.05);
+  text-shadow:0 0 8px rgba(162,123,254,0.5);
+}
+  
+/* FOOTER */
+footer{
+  background: linear-gradient(90deg,#b491ff,#8c63ff);
+  padding:15px 30px; text-align:center; color:#fff; border-radius:15px; margin-top:30px;
+  text-shadow:0 0 5px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+@media(max-width:768px){.menu-toggle{display:flex;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <img src="logo.png" alt="Logo">
+    <span>: HOME</span>
+  </div>
+  <div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></div>
+</header>
+
+<nav class="nav" id="nav">
+  <a href="https://aiq-beta.netlify.app/" target="_blank">EQUATION</a>
+  <a href="https://example.com/project2" target="_blank">GRAPH</a>
+  <a href="https://example.com/project3" target="_blank">PROC</a>
+  <a href="#" target="_blank">IN COMING...</a>
+</nav>
+
+<main>
+  <div class="hero" style="text-align:left; max-width:700px; margin:auto;">
+  <h1 style="font-size:2rem; margin-bottom:20px;">สวัสดีครับ 👋</h1>
+  
+  <p style="font-size:1rem; line-height:1.8em; text-indent:2em; margin-bottom:20px;">
+    ผมชื่อคิว (Que) เป็นนักเรียนมัธยมปลายและนักพัฒนาเว็บไซต์  
+    ผมสนใจในการสร้างสรรค์งานเว็บที่สวยงามและใช้งานได้จริง เริ่มศึกษาการเขียนเว็บไซต์ตั้งแต่เริ่มสนใจในโปรแกรมมิ่งและการออกแบบดีไซน์
+  </p>
+
+  <p style="font-size:1rem; line-height:1.8em; text-indent:2em; margin-bottom:20px;">
+    ในระหว่างเรียน ผมได้ทำโปรเจกต์หลายแบบ ทั้งเว็บไซต์ส่วนตัว เครื่องมือออนไลน์ และแอปพลิเคชันเล็ก ๆ  
+    เพื่อฝึกทักษะด้าน HTML, CSS, JavaScript และการออกแบบ UX/UI
+  </p>
+
+  <p style="font-size:1rem; line-height:1.8em; text-indent:2em;">
+    เว็บไซต์นี้สร้างขึ้นเพื่อรวบรวมผลงานและโปรเจกต์ของผม พร้อมแบ่งปันแนวคิด เทคนิค และประสบการณ์  
+    ผมหวังว่าผู้อ่านจะสนุกกับการชมผลงานและติดตามการพัฒนาเว็บไซต์ของผมต่อไป
+  </p>
+</div>
+</div>
+
+  <div class="card-container">
+    <div class="card" id="idCard">
+      <!-- FRONT -->
+      <div class="card-front">
+        <img src="logo.png" alt="Logo">
+        <h2>Que</h2>
+        <p>นักเรียนและนักพัฒนาเว็บไซต์</p>
+      </div>
+      <!-- BACK -->
+      <!-- BACK -->
+<div class="card-back">
+  <img src="logo.png" alt="Profile Photo">
+  <div class="info">
+    <h2>นายพรปวีณ์ โคตะสา</h2>
+    <p>Name: Pornpawee Kotasa</p>
+    <p>ปัจจุบันศึกษาอยู่ที่ โรงเรียนวารินชำราบ จังหวัดอุบลราชธานี อำเภอวารินชำราบ ตำบลคำน้ำแซ่บ</p>
+
+    <!-- LINKS -->
+    <div class="links">
+      <a href="mailto:pornpawee9618@gmail.com">Email: pornpawee9618@gmail.com</a>
+      <div class="row">
+        <a href="https://www.facebook.com/pxrn.kt?" target="_blank">FB: Que</a>
+        <a href="https://www.instagram.com/q.jub2?igsh=MWNxa2tzOTVwNGt2aQ==" target="_blank">IG: q.jub2</a>
+      </div>
+      <a href="https://ezdn.app/pornpawee" target="_blank">⟩⟩ Donate: Easydonate ⟨⟨</a>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>© 2025 Que's Portfolio</p>
+</footer>
+
+<script>
+const menuToggle = document.getElementById("menuToggle");
+const nav = document.getElementById("nav");
+menuToggle.addEventListener("click",()=>{
+  nav.classList.toggle("active");
+});
+
+const idCard = document.getElementById("idCard");
+let canFlip = true; // ถ้า true สามารถกดพลิกได้
+
+idCard.addEventListener("click", () => {
+  if (canFlip) {
+    idCard.classList.add("flipped");
+    canFlip = false; // ห้ามกดซ้ำขณะพลิกหลัง
+
+    // ตั้งเวลาให้พลิกกลับอัตโนมัติหลัง 5 วินาที
+    setTimeout(() => {
+      idCard.classList.remove("flipped");
+      canFlip = true; // ตอนนี้สามารถกดพลิกได้อีก
+    }, 5000);
+  }
+});
+  
+</script>
+
+</body>
+</html>
